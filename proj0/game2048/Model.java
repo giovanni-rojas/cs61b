@@ -137,7 +137,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for(int i = 0; i < b.size(); i++){
+            for(int j = 0; j < b.size(); j++){
+                if(b.tile(i, j) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +153,37 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for(int i = 0; i < b.size(); i++){
+            for(int j = 0; j < b.size(); j++){
+                if(b.tile(i, j) != null && b.tile(i, j).value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * helpper
+     * Returns true if there are two adjacent tiles with the same value on the board.
+     */
+    public static boolean adjacentEqTilesExist(Board b) {
+        for(int i = 0; i < b.size(); i++){
+            for(int j = 0; j < b.size(); j++){
+                int up = i + 1;
+                int down = i - 1;
+                int left = j - 1;
+                int right =  j + 1;
+                if(down >= 0 && b.tile(i, j).value() == b.tile(down, j).value())
+                    return true;
+                else if (up < b.size() && b.tile(i, j).value() == b.tile(up, j).value())
+                    return true;
+                else if(left >= 0 && b.tile(i, j).value() == b.tile(i, left).value())
+                    return true;
+                else if (right < b.size() && b.tile(i, j).value() == b.tile(i, right).value())
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -158,8 +194,7 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        return (emptySpaceExists(b) || adjacentEqTilesExist(b));
     }
 
 
