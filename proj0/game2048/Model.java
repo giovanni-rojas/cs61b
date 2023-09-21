@@ -144,11 +144,11 @@ public class Model extends Observable {
 
     public int nextTileRow(int col, int row){
         int topRow = board.size() - 1;
-        for(int r = topRow; r > row; r -= 1){
+        for(int r = row + 1; r <= topRow; r += 1){
             Tile t = board.tile(col, r);
-            if(t != null) {
+            //TODO: fix somewhere here. nextTileRow defaulting to top tile rather than adjacent tile
+            if(t != null)
                 return r;
-            }
         }
         return row;
     }
