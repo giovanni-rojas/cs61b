@@ -114,23 +114,30 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
         board.setViewingPerspective(side);
+
+        //2D-array of True/False flags to check if tile(c, r) has been merged on this call to tilt()
         boolean merged[][] = new boolean[board.size()][board.size()];
+
         int topRow = board.size() - 1;
         for (int c = 0; c < board.size(); c += 1) {
             for (int r = topRow - 1; r >= 0; r -= 1) {
                 Tile t = board.tile(c, r);
                 if (t != null) {
+                    //if there is no adjacent North tile, move to "top" row
                     if (nextTileRow(c, r) - r == 0){
                         board.move(c, topRow, t);
                         changed = true;
                     }
                     else{
+                        //closest "North" tile
                         Tile nextT = board.tile(c, nextTileRow(c, r));
+                        //if tile and closest "North" tile are ==, and closest "North" tile has not previously merged, merge them
                         if(t.value() == nextT.value() && !merged[c][nextTileRow(c, r)]) {
                             merged[c][nextTileRow(c, r)] = true;
                             board.move(c, nextTileRow(c, r), t);
                             score += 2 * t.value();
                         }
+                        //else, move tile to "North-most" point without merging
                         else
                             board.move(c, nextTileRow(c, r) - 1, t);
                         changed = true;
@@ -141,12 +148,11 @@ public class Model extends Observable {
         board.setViewingPerspective(Side.NORTH);
         return changed;
     }
-
+    //returns row of closest tile or row of itself (assuming viewing North)
     public int nextTileRow(int col, int row){
         int topRow = board.size() - 1;
         for(int r = row + 1; r <= topRow; r += 1){
             Tile t = board.tile(col, r);
-            //TODO: fix somewhere here. nextTileRow defaulting to top tile rather than adjacent tile
             if(t != null)
                 return r;
         }
