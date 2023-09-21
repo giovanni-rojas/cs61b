@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Gio R
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -113,12 +113,44 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
-        checkGameOver();
-        if (changed) {
-            setChanged();
+        board.setViewingPerspective(side);
+        boolean merged[][] = new boolean[board.size()][board.size()];
+        int topRow = board.size() - 1;
+        for (int c = 0; c < board.size(); c += 1) {
+            for (int r = topRow - 1; r >= 0; r -= 1) {
+                Tile t = board.tile(c, r);
+                if (t != null) {
+                    if (nextTileRow(c, r) - r == 0){
+                        board.move(c, topRow, t);
+                        changed = true;
+                    }
+                    else{
+                        Tile nextT = board.tile(c, nextTileRow(c, r));
+                        if(t.value() == nextT.value() && !merged[c][nextTileRow(c, r)]) {
+                            merged[c][nextTileRow(c, r)] = true;
+                            board.move(c, nextTileRow(c, r), t);
+                            score += 2 * t.value();
+                        }
+                        else
+                            board.move(c, nextTileRow(c, r) - 1, t);
+                        changed = true;
+                    }
+                }
+            }
         }
+        board.setViewingPerspective(Side.NORTH);
         return changed;
+    }
+
+    public int nextTileRow(int col, int row){
+        int topRow = board.size() - 1;
+        for(int r = topRow; r > row; r -= 1){
+            Tile t = board.tile(col, r);
+            if(t != null) {
+                return r;
+            }
+        }
+        return row;
     }
 
     /** Checks if the game is over and sets the gameOver variable
