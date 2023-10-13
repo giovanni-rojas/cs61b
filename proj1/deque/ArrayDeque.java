@@ -16,7 +16,7 @@ public class ArrayDeque<Item> {
 
     /** Returns true if deque is empty, false otherwise */
     public boolean isEmpty() {
-        return size() == 0;
+        return size == 0;
     }
 
     /** Calculates the next firstIndex after an addFirst() */
@@ -43,8 +43,24 @@ public class ArrayDeque<Item> {
             return lastIndex + 1;
     }
 
+    public void resize(int capacity) {
+        Item[] newArray = (Item[]) new Object[capacity];
+        if(firstIndex < lastIndex)
+            System.arraycopy(items, firstIndex, newArray, 0, size);
+        else {
+            System.arraycopy(items, firstIndex, newArray, 0, size - firstIndex);
+            System.arraycopy(items, 0, newArray, size - firstIndex, lastIndex + 1);
+        }
+        firstIndex = 0;
+        lastIndex = size - 1;
+        items = newArray;
+    }
+
     /** Adds x to the front of the deque. */
     public void addFirst(Item x) {
+        //case where array is full
+        if(size == items.length)
+            resize(size * 2);
         firstIndex = firstAfterAdd();
         items[firstIndex] = x;
         size += 1;
@@ -52,6 +68,9 @@ public class ArrayDeque<Item> {
 
     /** Adds x to the end of the deque. */
     public void addLast(Item x) {
+        //case where array is full
+        if(size == items.length)
+            resize(size * 2);
         lastIndex = lastAfterAdd();
         items[lastIndex] = x;
         size += 1;
@@ -76,7 +95,7 @@ public class ArrayDeque<Item> {
 
     /** Calculates the next firstIndex after a removeFirst() */
     public int firstAfterRemove() {
-        //case for removing only entry in array
+        //firstIndex stays the same if removing only entry
         if (size() == 1)
             return firstIndex;
         //next firstIndex loops back around to beginning of array
@@ -88,7 +107,7 @@ public class ArrayDeque<Item> {
 
     /** Calculates the next lastIndex after a removeLast() */
     public int lastAfterRemove() {
-        //case for removing only entry in array
+        //lastIndex stays the same if removing only entry
         if (size() == 1)
             return lastIndex;
         //next lastIndex loops back around to end of array
@@ -102,12 +121,13 @@ public class ArrayDeque<Item> {
     public Item removeFirst() {
         if(isEmpty())
             return null;
-        else{
-            Item removed = items[firstIndex];
-            firstIndex = firstAfterRemove();
-            size -= 1;
-            return removed;
-        }
+        //case where array size is < 1/4 items.length
+        if (size < items.length / 4)
+            resize(size * 2);
+        Item removed = items[firstIndex];
+        firstIndex = firstAfterRemove();
+        size -= 1;
+        return removed;
 
     }
 
@@ -115,12 +135,13 @@ public class ArrayDeque<Item> {
     public Item removeLast() {
         if(isEmpty())
             return null;
-        else {
-            Item removed = items[lastIndex];
-            lastIndex = lastAfterRemove();
-            size -= 1;
-            return removed;
-        }
+        //case where array size is < 1/4 items.length
+        if (size < items.length / 4)
+            resize(size * 2);
+        Item removed = items[lastIndex];
+        lastIndex = lastAfterRemove();
+        size -= 1;
+        return removed;
     }
 
     /** Returns the first item in the deque. Helper for testing */
@@ -135,15 +156,18 @@ public class ArrayDeque<Item> {
 
     /** Returns the item at the given index */
     public Item get(int index) {
-        if (isEmpty() || index >= size())
+        //array is empty or index is out of bounds
+        if (isEmpty() || index >= size)
             return null;
         else if (firstIndex < lastIndex)
             return items[firstIndex + index];
-        else
-            if(firstIndex + index < items.length)
+        else {
+            if (firstIndex + index < items.length)
                 return items[firstIndex + index];
+            //index needs to loop back to the front
             else
                 return items[index - firstIndex];
+        }
     }
 
 
