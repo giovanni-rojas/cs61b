@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<Item> {
+public class LinkedListDeque<Item> implements Deque<Item> {
     private class Node {
         public Item item;
         public Node prev;
@@ -30,11 +30,7 @@ public class LinkedListDeque<Item> {
 //        size = 1;
 //    }
 
-    /** Returns true if deque is empty, false otherwise */
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
+    @Override
     /** Adds x to the front of the deque. */
     public void addFirst(Item x) {
         if (isEmpty()) {
@@ -48,6 +44,7 @@ public class LinkedListDeque<Item> {
         size = size + 1;
     }
 
+    @Override
     /** Adds x to the end of the deque. */
     public void addLast(Item x) {
         if (isEmpty()) {
@@ -61,6 +58,7 @@ public class LinkedListDeque<Item> {
         size = size + 1;
     }
 
+    @Override
     /** Prints items in deque from first to last, separated by a space */
     public void printDeque() {
         if(isEmpty()) {
@@ -77,6 +75,7 @@ public class LinkedListDeque<Item> {
         }
     }
 
+    @Override
     /** Removes and returns the first item in the deque. Returns null if empty */
     public Item removeFirst() {
         if(isEmpty()) {
@@ -90,6 +89,7 @@ public class LinkedListDeque<Item> {
         }
     }
 
+    @Override
     /** Removes and returns the last item in the deque. Returns null if empty */
     public Item removeLast() {
         if(isEmpty()) {
@@ -113,6 +113,7 @@ public class LinkedListDeque<Item> {
         return sentinel.prev.item;
     }
 
+    @Override
     /** Returns the item at the given index */
     public Item get(int index) {
         if(isEmpty()) {
@@ -147,6 +148,7 @@ public class LinkedListDeque<Item> {
         return getRecursiveHelper(index, 0, sentinel.next);
     }
 
+    @Override
     /** Returns the size of the list. */
     public int size() {
         return size;

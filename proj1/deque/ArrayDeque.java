@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<Item> {
+public class ArrayDeque<Item> implements Deque<Item> {
     private Item[] items;
     private int size;
     private int firstIndex;
@@ -12,11 +12,6 @@ public class ArrayDeque<Item> {
         size = 0;
         firstIndex = items.length / 2;
         lastIndex = firstIndex;
-    }
-
-    /** Returns true if deque is empty, false otherwise */
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     /** Calculates the next firstIndex after an addFirst() */
@@ -56,6 +51,7 @@ public class ArrayDeque<Item> {
         items = newArray;
     }
 
+    @Override
     /** Adds x to the front of the deque. */
     public void addFirst(Item x) {
         //case where array is full
@@ -66,6 +62,7 @@ public class ArrayDeque<Item> {
         size += 1;
     }
 
+    @Override
     /** Adds x to the end of the deque. */
     public void addLast(Item x) {
         //case where array is full
@@ -76,6 +73,7 @@ public class ArrayDeque<Item> {
         size += 1;
     }
 
+    @Override
     /** Prints items in deque from first to last, separated by a space */
     public void printDeque() {
         if(isEmpty())
@@ -117,6 +115,7 @@ public class ArrayDeque<Item> {
             return lastIndex - 1;
     }
 
+    @Override
     /** Removes and returns the first item in the deque. Returns null if empty */
     public Item removeFirst() {
         if(isEmpty())
@@ -131,6 +130,7 @@ public class ArrayDeque<Item> {
 
     }
 
+    @Override
     /** Removes and returns the last item in the deque. Returns null if empty */
     public Item removeLast() {
         if(isEmpty())
@@ -154,6 +154,7 @@ public class ArrayDeque<Item> {
         return items[lastIndex];
     }
 
+    @Override
     /** Returns the item at the given index */
     public Item get(int index) {
         //array is empty or index is out of bounds
@@ -170,7 +171,7 @@ public class ArrayDeque<Item> {
         }
     }
 
-
+    @Override
     /** Returns the size of the list. */
     public int size() {
         return size;
