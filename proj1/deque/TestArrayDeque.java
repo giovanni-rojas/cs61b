@@ -16,8 +16,7 @@ public class TestArrayDeque {
     public void addIsEmptySizeTest() {
 
         ArrayDeque<String> arrayDeque = new ArrayDeque<String>();
-
-		assertTrue("A newly initialized ArrayDeque should be empty", arrayDeque.isEmpty());
+        assertTrue("A newly initialized ArrayDeque should be empty", arrayDeque.isEmpty());
 		arrayDeque.addFirst("front");
 
 		// The && operator is the same as "and" in Python.
@@ -97,8 +96,8 @@ public class TestArrayDeque {
 
         boolean passed1 = false;
         boolean passed2 = false;
-        assertEquals("Should return null when removeFirst is called on an empty Deque,", null, arrayDeque.removeFirst());
-        assertEquals("Should return null when removeLast is called on an empty Deque,", null, arrayDeque.removeLast());
+        assertEquals("Should return null on an empty Deque,", null, arrayDeque.removeFirst());
+        assertEquals("Should return null on an empty Deque,", null, arrayDeque.removeLast());
 
     }
 

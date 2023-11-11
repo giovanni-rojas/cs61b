@@ -1,6 +1,5 @@
 package deque;
 
-import net.sf.saxon.expr.Component;
 import org.junit.Test;
 
 import java.util.Comparator;

@@ -4,17 +4,17 @@ import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
-        public T item;
-        public Node prev;
-        public Node next;
-        public Node(T i, Node p, Node n) {
+        private T item;
+        private Node prev;
+        private Node next;
+        private Node(T i, Node p, Node n) {
             item = i;
             prev = p;
             next = n;
         }
     }
 
-    /*The first item (if it exists) is at sentinel.next, and the last item (if it exists) is at sentinel.prev */
+
     private Node sentinel;
     private int size;
 
@@ -69,7 +69,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             Node p = sentinel.next;
             System.out.print(p.item);
             p = p.next;
-            while (p != sentinel){
+            while (p != sentinel) {
                 System.out.print(" " + p.item);
                 p = p.next;
             }
@@ -112,7 +112,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return null;
         } else {
             int i = 0;
-            for (Node p = sentinel.next; p != sentinel; p = p.next){
+            for (Node p = sentinel.next; p != sentinel; p = p.next) {
                 if (i == index) {
                     return p.item;
                 }
@@ -152,7 +152,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private class LLDequeIterator implements Iterator<T> {
         private int position;
-        public LLDequeIterator() {
+        LLDequeIterator() {
             position = 0;
         }
 

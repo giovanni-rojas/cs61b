@@ -15,8 +15,7 @@ public class TestLinkedListDeque {
     public void addIsEmptySizeTest() {
 
         LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-
-		assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
+        assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
 		lld1.addFirst("front");
 
 		// The && operator is the same as "and" in Python.
@@ -96,8 +95,8 @@ public class TestLinkedListDeque {
 
         boolean passed1 = false;
         boolean passed2 = false;
-        assertEquals("Should return null when removeFirst is called on an empty Deque,", null, lld1.removeFirst());
-        assertEquals("Should return null when removeLast is called on an empty Deque,", null, lld1.removeLast());
+        assertEquals("Should return null on an empty Deque,", null, lld1.removeFirst());
+        assertEquals("Should return null on an empty Deque,", null, lld1.removeLast());
 
     }
 
