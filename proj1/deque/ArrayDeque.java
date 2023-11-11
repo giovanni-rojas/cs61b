@@ -138,7 +138,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return null;
         }
         //case where array size is < 1/4 items.length
-        if (size < items.length / 4) {
+        if (size < items.length / 4 + 1 && items.length > 16) {
             resize(size * 2);
         }
         T removed = items[firstIndex];
@@ -155,7 +155,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return null;
         }
         //case where array size is < 1/4 items.length
-        if (size < items.length / 4) {
+        if (size < items.length / 4 + 1 && items.length > 16) {
             resize(size * 2);
         }
         T removed = items[lastIndex];
