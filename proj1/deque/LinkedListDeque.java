@@ -63,13 +63,13 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     /** Prints items in deque from first to last, separated by a space */
     public void printDeque() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             System.out.println();
         } else {
             Node p = sentinel.next;
             System.out.print(p.item);
             p = p.next;
-            while(p != sentinel){
+            while (p != sentinel){
                 System.out.print(" " + p.item);
                 p = p.next;
             }
@@ -80,7 +80,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     /** Removes and returns the first item in the deque. Returns null if empty */
     public T removeFirst() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return null;
         } else {
             Node first = sentinel.next;
@@ -94,7 +94,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     /** Removes and returns the last item in the deque. Returns null if empty */
     public T removeLast() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return null;
         } else {
             Node last = sentinel.prev;
@@ -105,25 +105,15 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
-    /** Returns the first item in the deque. Helper for testing */
-    public T getFirst() {
-        return sentinel.next.item;
-    }
-
-    /** Returns the last item in the deque. Helper for testing */
-    public T getLast() {
-        return sentinel.prev.item;
-    }
-
     @Override
     /** Returns the item at the given index */
     public T get(int index) {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return null;
         } else {
             int i = 0;
-            for(Node p = sentinel.next; p != sentinel; p = p.next){
-                if(i == index) {
+            for (Node p = sentinel.next; p != sentinel; p = p.next){
+                if (i == index) {
                     return p.item;
                 }
                 i++;
@@ -144,7 +134,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     /** Returns the item at the given index, using recursion */
     public T getRecursive(int index) {
-        if(index >= size()) {
+        if (index >= size()) {
             return null;
         }
         return getRecursiveHelper(index, 0, sentinel.next);
@@ -179,37 +169,24 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public boolean equals(Object o) {
-        if(o == null) {
+        if (o == null) {
             return false;
         }
-        if(this == o) {
+        if (this == o) {
             return true;
         }
-        if(!(o instanceof LinkedListDeque<?>)) {
+        if (!(o instanceof LinkedListDeque<?>)) {
             return false;
         }
         LinkedListDeque<T> olld = (LinkedListDeque<T>) o;
-        if(this.size != olld.size()) {
+        if (this.size != olld.size()) {
             return false;
         }
-        for(int i = 0; i < this.size; i++) {
-            if(!(get(i).equals(olld.get(i)))) {
+        for (int i = 0; i < this.size; i++) {
+            if (!(get(i).equals(olld.get(i)))) {
                 return false;
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        /* Creates a list of one integer, namely 10 */
-        LinkedListDeque D = new LinkedListDeque();
-        D.addLast(1);
-        D.addLast(2);
-        D.addLast(3);
-        D.addLast(4);
-        D.addLast(5);
-        //System.out.println("First removed is: " + D.removeFirst() + ", Last removed is: " + D.removeLast());
-        System.out.println(D.getRecursive(6));
-        D.printDeque();
     }
 }
