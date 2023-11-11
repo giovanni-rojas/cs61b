@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<Item> implements Deque<Item>, Iterable<Item> {
+public class ArrayDeque<Item> implements Deque<Item>{
     private Item[] items;
     private int size;
     private int firstIndex;
