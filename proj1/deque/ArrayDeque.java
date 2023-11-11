@@ -205,18 +205,20 @@ public class ArrayDeque<Item> implements Deque<Item>, Iterable<Item> {
 
     @Override
     public boolean equals(Object o) {
+        if(o == null)
+            return false;
         if(this == o)
             return true;
-        if(o instanceof ArrayDeque oad) {
-            if(this.size != oad.size())
+        if(!(o instanceof ArrayDeque))
+            return false;
+        ArrayDeque<Item> oad = (ArrayDeque<Item>) o;
+        if(this.size != oad.size())
+            return false;
+        for(int i = 0; i < this.size; i++) {
+            if(!(get(i).equals(oad.get(i))))
                 return false;
-            for(int i = 0; i < this.size; i++) {
-                if(get(i) != oad.get(i))
-                    return false;
-            }
-            return true;
         }
-        return false;
+        return true;
     }
 
     public static void main(String[] args) {
