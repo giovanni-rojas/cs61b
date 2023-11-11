@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<Item> implements Deque<Item> {
+public class ArrayDeque<Item> implements Deque<Item>, Iterable<Item> {
     private Item[] items;
     private int size;
     private int firstIndex;
@@ -43,8 +43,11 @@ public class ArrayDeque<Item> implements Deque<Item> {
         if(firstIndex < lastIndex)
             System.arraycopy(items, firstIndex, newArray, 0, size);
         else {
-            System.arraycopy(items, firstIndex, newArray, 0, size - firstIndex);
-            System.arraycopy(items, 0, newArray, size - firstIndex, lastIndex + 1);
+//            System.arraycopy(items, firstIndex, newArray, 0, size - firstIndex);
+//            System.arraycopy(items, 0, newArray, size - firstIndex, lastIndex + 1);
+            for(int i = 0; i < size; i++) {
+                newArray[i] = get(i);
+            }
         }
         firstIndex = 0;
         lastIndex = size - 1;
