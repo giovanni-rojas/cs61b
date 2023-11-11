@@ -2,12 +2,12 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
-        public Item item;
+        public T item;
         public Node prev;
         public Node next;
-        public Node(Item i, Node p, Node n) {
+        public Node(T i, Node p, Node n) {
             item = i;
             prev = p;
             next = n;
@@ -24,8 +24,8 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
         size = 0;
     }
 
-//    /** Creates a LinkedListDeque with one <Item> */
-//    public LinkedListDeque(Item x) {
+//    /** Creates a LinkedListDeque with one <T> */
+//    public LinkedListDeque(T x) {
 //        sentinel = new Node(null, null, null);
 //        sentinel.next = new Node(x, sentinel, sentinel);
 //        sentinel.prev = sentinel.next;
@@ -34,7 +34,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
 
     @Override
     /** Adds x to the front of the deque. */
-    public void addFirst(Item x) {
+    public void addFirst(T x) {
         if (isEmpty()) {
             sentinel.next = new Node(x, sentinel, sentinel);
             sentinel.prev = sentinel.next;
@@ -48,7 +48,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
 
     @Override
     /** Adds x to the end of the deque. */
-    public void addLast(Item x) {
+    public void addLast(T x) {
         if (isEmpty()) {
             sentinel.next = new Node(x, sentinel, sentinel);
             sentinel.prev = sentinel.next;
@@ -79,7 +79,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
 
     @Override
     /** Removes and returns the first item in the deque. Returns null if empty */
-    public Item removeFirst() {
+    public T removeFirst() {
         if(isEmpty()) {
             return null;
         } else {
@@ -93,7 +93,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
 
     @Override
     /** Removes and returns the last item in the deque. Returns null if empty */
-    public Item removeLast() {
+    public T removeLast() {
         if(isEmpty()) {
             return null;
         } else {
@@ -106,18 +106,18 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
     }
 
     /** Returns the first item in the deque. Helper for testing */
-    public Item getFirst() {
+    public T getFirst() {
         return sentinel.next.item;
     }
 
     /** Returns the last item in the deque. Helper for testing */
-    public Item getLast() {
+    public T getLast() {
         return sentinel.prev.item;
     }
 
     @Override
     /** Returns the item at the given index */
-    public Item get(int index) {
+    public T get(int index) {
         if(isEmpty()) {
             return null;
         } else {
@@ -133,7 +133,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
     }
 
     /** Helper function for getRecursive */
-    private Item getRecursiveHelper(int targetIndex, int currIndex, Node p) {
+    private T getRecursiveHelper(int targetIndex, int currIndex, Node p) {
         if (p.item == null) {
             return null;
         } else if (currIndex == targetIndex) {
@@ -143,7 +143,7 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
     }
 
     /** Returns the item at the given index, using recursion */
-    public Item getRecursive(int index) {
+    public T getRecursive(int index) {
         if(index >= size()) {
             return null;
         }
@@ -156,11 +156,11 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
         return size;
     }
 
-    public Iterator<Item> iterator() {
+    public Iterator<T> iterator() {
         return new LLDequeIterator();
     }
 
-    private class LLDequeIterator implements Iterator<Item> {
+    private class LLDequeIterator implements Iterator<T> {
         private int position;
         public LLDequeIterator() {
             position = 0;
@@ -170,27 +170,32 @@ public class LinkedListDeque<Item> implements Deque<Item>, Iterable<Item> {
             return position < size;
         }
 
-        public Item next() {
-            Item returnItem = get(position);
+        public T next() {
+            T returnT = get(position);
             position += 1;
-            return returnItem;
+            return returnT;
         }
     }
 
     @Override
     public boolean equals(Object o) {
-        if(o == null)
+        if(o == null) {
             return false;
-        if(this == o)
+        }
+        if(this == o) {
             return true;
-        if(!(o instanceof LinkedListDeque<?>))
+        }
+        if(!(o instanceof LinkedListDeque<?>)) {
             return false;
-        LinkedListDeque<Item> olld = (LinkedListDeque<Item>) o;
-        if(this.size != olld.size())
+        }
+        LinkedListDeque<T> olld = (LinkedListDeque<T>) o;
+        if(this.size != olld.size()) {
             return false;
+        }
         for(int i = 0; i < this.size; i++) {
-            if(!(get(i).equals(olld.get(i))))
+            if(!(get(i).equals(olld.get(i)))) {
                 return false;
+            }
         }
         return true;
     }
