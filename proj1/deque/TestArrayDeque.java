@@ -15,22 +15,22 @@ public class TestArrayDeque {
     public void addIsEmptySizeTest() {
 
         ArrayDeque<String> arrayDeque = new ArrayDeque<String>();
-        assertTrue("A newly initialized ArrayDeque should be empty", arrayDeque.isEmpty());
-		arrayDeque.addFirst("front");
+        assertTrue("not empty", arrayDeque.isEmpty());
+        arrayDeque.addFirst("front");
 
-		// The && operator is the same as "and" in Python.
-		// It's a binary operator that returns true if both arguments true, and false otherwise.
+        // The && operator is the same as "and" in Python.
+        // It's a binary operator that returns true if both arguments true, and false otherwise.
         // assertEquals(1, arrayDeque.size());
-        assertFalse("arrayDeque should now contain 1 item", arrayDeque.isEmpty());
+        assertFalse("not 1 item", arrayDeque.isEmpty());
 
-		arrayDeque.addLast("middle");
-		assertEquals(2, arrayDeque.size());
+        arrayDeque.addLast("middle");
+        assertEquals(2, arrayDeque.size());
 
-		arrayDeque.addLast("back");
-		assertEquals(3, arrayDeque.size());
+        arrayDeque.addLast("back");
+        assertEquals(3, arrayDeque.size());
 
-		System.out.println("Printing out deque: ");
-		arrayDeque.printDeque();
+        System.out.println("Printing out deque: ");
+        arrayDeque.printDeque();
     }
 
     @Test
@@ -38,16 +38,16 @@ public class TestArrayDeque {
     public void addRemoveTest() {
 
         ArrayDeque<Integer> arrayDeque = new ArrayDeque<Integer>();
-		// should be empty
-		assertTrue("arrayDeque should be empty upon initialization", arrayDeque.isEmpty());
+        // should be empty
+        assertTrue("not empty", arrayDeque.isEmpty());
 
-		arrayDeque.addFirst(10);
-		// should not be empty
-		assertFalse("arrayDeque should contain 1 item", arrayDeque.isEmpty());
+        arrayDeque.addFirst(10);
+        // should not be empty
+        assertFalse("not 1 item", arrayDeque.isEmpty());
 
-		arrayDeque.removeFirst();
-		// should be empty
-		assertTrue("arrayDeque should be empty after removal", arrayDeque.isEmpty());
+        arrayDeque.removeFirst();
+        // should be empty
+        assertTrue("not empty", arrayDeque.isEmpty());
     }
 
     @Test
@@ -95,8 +95,8 @@ public class TestArrayDeque {
 
         boolean passed1 = false;
         boolean passed2 = false;
-        assertEquals("Should return null on an empty Deque,", null, arrayDeque.removeFirst());
-        assertEquals("Should return null on an empty Deque,", null, arrayDeque.removeLast());
+        assertEquals("not null,", null, arrayDeque.removeFirst());
+        assertEquals("not null,", null, arrayDeque.removeLast());
 
     }
 
@@ -110,11 +110,11 @@ public class TestArrayDeque {
         }
 
         for (double i = 0; i < 500000; i++) {
-            assertEquals("Should have the same value", i, (double) arrayDeque.removeFirst(), 0.0);
+            assertEquals("not same", i, (double) arrayDeque.removeFirst(), 0.0);
         }
 
         for (double i = 999999; i > 500000; i--) {
-            assertEquals("Should have the same value", i, (double) arrayDeque.removeLast(), 0.0);
+            assertEquals("not same", i, (double) arrayDeque.removeLast(), 0.0);
         }
 
     }
