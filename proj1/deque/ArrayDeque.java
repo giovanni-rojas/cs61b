@@ -168,7 +168,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             if (firstIndex + index < items.length) {
                 return items[firstIndex + index];
             } else {
-                return items[index - firstIndex];
+                return items[index - (items.length - firstIndex)];
             }
         }
     }
