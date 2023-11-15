@@ -135,13 +135,11 @@ public class TestArrayDeque {
                 int randVal = StdRandom.uniform(0, 100);
                 A.addFirst(randVal);
                 B.addFirst(randVal);
-                //System.out.println("AD addFirst(" + randVal + ") , AD_Copy addFirst(" + randVal + ")");
             } else if (operationNumber == 1) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
                 A.addLast(randVal);
                 B.addLast(randVal);
-                //System.out.println("AD addLast(" + randVal + "), AD_Copy addLast(" + randVal + ")");
             } else if (operationNumber == 2) {
                 // size
                 int size = A.size();
@@ -154,7 +152,6 @@ public class TestArrayDeque {
                 } else {
                     int firstAD = A.removeFirst();
                     int firstCopy = B.removeFirst();
-                    //System.out.println("AD removeFirst(): " + firstAD + ", AD_Copy removeFirst(): " + firstCopy);
                 }
             } else if (operationNumber == 4) {
                 // removeLast
@@ -163,7 +160,6 @@ public class TestArrayDeque {
                 } else {
                     int lastAD = A.removeLast();
                     int lastCopy = B.removeLast();
-                    //System.out.println("AD removeLast(): " + lastAD + ", AD_Copy removeLast(): " + lastCopy);
                 }
             } else if (operationNumber == 5) {
                 // printDeque
@@ -175,7 +171,6 @@ public class TestArrayDeque {
                     System.out.println("Empty deque get");
                 } else {
                     int randVal = StdRandom.uniform(0, A.size());
-                    //System.out.println("AD get(" + randVal + "): " + A.get(randVal) + ", AD_Copy get(" + randVal + "): " + B.get(randVal));
                 }
             } else if (operationNumber == 7) {
                 // equals
