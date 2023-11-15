@@ -194,7 +194,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         public T next() {
-            T returnT = items[position];
+            T returnT = get(position);
             position += 1;
             return returnT;
         }
@@ -208,15 +208,15 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ArrayDeque)) {
+        if (!(o instanceof Deque)) {
             return false;
         }
-        ArrayDeque<T> oad = (ArrayDeque<T>) o;
-        if (this.size != oad.size()) {
+        Deque<T> od = (Deque<T>) o;
+        if (this.size != od.size()) {
             return false;
         }
         for (int i = 0; i < this.size; i++) {
-            if (!(get(i).equals(oad.get(i)))) {
+            if (!(get(i).equals(od.get(i)))) {
                 return false;
             }
         }

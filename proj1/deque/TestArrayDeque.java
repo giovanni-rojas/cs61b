@@ -122,10 +122,10 @@ public class TestArrayDeque {
     @Test
     //Randomized test of n = 1000
     public void randomizedTest() {
-        ArrayDeque<Integer> AD = new ArrayDeque<>();
-        ArrayDeque<Integer> AD_Copy = new ArrayDeque<>();
-        ArrayDeque<Integer> AD_Simple = new ArrayDeque<>();
-        AD_Simple.addLast(999);
+        ArrayDeque<Integer> A = new ArrayDeque<>();
+        ArrayDeque<Integer> B = new ArrayDeque<>();
+        ArrayDeque<Integer> C = new ArrayDeque<>();
+        C.addLast(999);
 
         int N = 500;
         for (int i = 0; i < N; i += 1) {
@@ -133,57 +133,57 @@ public class TestArrayDeque {
             if (operationNumber == 0) {
                 // addFirst
                 int randVal = StdRandom.uniform(0, 100);
-                AD.addFirst(randVal);
-                AD_Copy.addFirst(randVal);
-                System.out.println("AD addFirst(" + randVal + ") , AD_Copy addFirst(" + randVal + ")");
+                A.addFirst(randVal);
+                B.addFirst(randVal);
+                //System.out.println("AD addFirst(" + randVal + ") , AD_Copy addFirst(" + randVal + ")");
             } else if (operationNumber == 1) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
-                AD.addLast(randVal);
-                AD_Copy.addLast(randVal);
-                System.out.println("AD addLast(" + randVal + "), AD_Copy addLast(" + randVal + ")");
+                A.addLast(randVal);
+                B.addLast(randVal);
+                //System.out.println("AD addLast(" + randVal + "), AD_Copy addLast(" + randVal + ")");
             } else if (operationNumber == 2) {
                 // size
-                int size = AD.size();
-                int sizeCopy = AD_Copy.size();
-                System.out.println("AD size: " + size + ", AD_Copy size: " + sizeCopy);
+                int size = A.size();
+                int sizeCopy = B.size();
+                //System.out.println("AD size: " + size + ", AD_Copy size: " + sizeCopy);
             } else if (operationNumber == 3) {
                 // removeFirst
-                if(AD.isEmpty()) {
+                if (A.isEmpty()) {
                     System.out.println("Empty deque removeFirst");
                 } else {
-                    int firstAD = AD.removeFirst();
-                    int firstCopy = AD_Copy.removeFirst();
-                    System.out.println("AD removeFirst(): " + firstAD + ", AD_Copy removeFirst(): " + firstCopy);
+                    int firstAD = A.removeFirst();
+                    int firstCopy = B.removeFirst();
+                    //System.out.println("AD removeFirst(): " + firstAD + ", AD_Copy removeFirst(): " + firstCopy);
                 }
             } else if (operationNumber == 4) {
                 // removeLast
-                if(AD.isEmpty()) {
+                if (A.isEmpty()) {
                     System.out.println("Empty deque removeLast");
                 } else {
-                    int lastAD = AD.removeLast();
-                    int lastCopy = AD_Copy.removeLast();
-                    System.out.println("AD removeLast(): " + lastAD + ", AD_Copy removeLast(): " + lastCopy);
+                    int lastAD = A.removeLast();
+                    int lastCopy = B.removeLast();
+                    //System.out.println("AD removeLast(): " + lastAD + ", AD_Copy removeLast(): " + lastCopy);
                 }
             } else if (operationNumber == 5) {
                 // printDeque
-                AD.printDeque();
-                AD_Copy.printDeque();
+                A.printDeque();
+                B.printDeque();
             } else if (operationNumber == 6) {
                 // get
-                if(AD.isEmpty()) {
+                if (A.isEmpty()) {
                     System.out.println("Empty deque get");
                 } else {
-                    int randVal = StdRandom.uniform(0, AD.size());
-                    System.out.println("AD get(" + randVal + "): " + AD.get(randVal) + ", AD_Copy get(" + randVal + "): " + AD_Copy.get(randVal));
+                    int randVal = StdRandom.uniform(0, A.size());
+                    //System.out.println("AD get(" + randVal + "): " + A.get(randVal) + ", AD_Copy get(" + randVal + "): " + B.get(randVal));
                 }
             } else if (operationNumber == 7) {
                 // equals
-                if(AD.isEmpty()) {
+                if (A.isEmpty()) {
                     System.out.println("Empty deque equals");
                 } else {
-                    boolean copyEquals = AD.equals(AD_Copy);
-                    boolean simpleEquals = AD.equals(AD_Simple);
+                    boolean copyEquals = A.equals(B);
+                    boolean simpleEquals = A.equals(C);
                     assertTrue(copyEquals);
                     assertFalse(simpleEquals);
                 }
