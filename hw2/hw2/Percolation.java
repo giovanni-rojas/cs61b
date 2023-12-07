@@ -36,21 +36,52 @@ public class Percolation {
             return (row * grid.length) + col;
         }
 
-        public void open(int row, int col) {      // open the site (row, col) if it is not open already
+        public void connectToNeighbors(int row, int col) {
+            if (row - 1 >= 0 && isOpen(row - 1, col)) { // neighbor above
+                allSites.union(rowColToInt(row, col), rowColToInt(row - 1, col));
+                sitesConnectedToTop.union(rowColToInt(row, col), rowColToInt(row - 1, col));
+            }
+            if (row + 1 < grid.length && isOpen(row + 1, col)) { // neighbor below
+                allSites.union(rowColToInt(row, col), rowColToInt(row + 1, col));
+                sitesConnectedToTop.union(rowColToInt(row, col), rowColToInt(row + 1, col));
+            }
+            if (col - 1 >= 0 && isOpen(row, col - 1)) { // neighbor left
+                allSites.union(rowColToInt(row, col), rowColToInt(row, col - 1));
+                sitesConnectedToTop.union(rowColToInt(row, col), rowColToInt(row, col - 1));
+            }
+            if (col + 1 < grid.length && isOpen(row, col + 1)) { // neighbor right
+                allSites.union(rowColToInt(row, col), rowColToInt(row, col + 1));
+                sitesConnectedToTop.union(rowColToInt(row, col), rowColToInt(row, col + 1));
+            }
+        }
 
+        public void open(int row, int col) {      // open the site (row, col) if it is not open already
+            if (!isOpen(row, col)) {
+                grid[row][col] = true;
+                numOpen++;
+                connectToNeighbors(row, col); //union with neighbors
+                if (row == 0) { //connect to open-top of grid and to
+                    allSites.union(topSitesIndex, rowColToInt(row, col));
+                    sitesConnectedToTop.union(topSitesIndex, rowColToInt(row, col));
+                }
+                if (row == grid.length - 1) { //connect to bottom of grid
+                    allSites.union(bottomSitesIndex, rowColToInt(row, col));
+                }
+            }
         }
         public boolean isOpen(int row, int col) {  // is the site (row, col) open?
             checkInput(row, col);
             return grid[row][col];
         }
         public boolean isFull(int row, int col) {  // is the site (row, col) full?
-            return false;
+            checkInput(row, col);
+            return sitesConnectedToTop.connected(topSitesIndex, rowColToInt(row, col));
         }
         public int numberOfOpenSites() {          // number of open sites
             return numOpen;
         }
         public boolean percolates() {             // does the system percolate?
-            return false;
+            return allSites.connected(topSitesIndex, bottomSitesIndex);
         }
         public static void main(String[] args) {  // use for unit testing (not required, but keep this here for the autograder)
         }
