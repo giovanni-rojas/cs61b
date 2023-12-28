@@ -13,7 +13,7 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
 
     /** Keys and values are stored in a BST of BSTNode objects.
      *  This variable stores the root node containing the first pair in BST. */
-    private BSTNode bstNode;
+    private BSTNode bstMap;
 
     /** Represents one node in the BST that stores the key-value pairs
      *  in the dictionary. */
@@ -39,14 +39,30 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
         /** Returns the BSTNode in this BST of key-value pairs whose key
          *  is equal to KEY, or null if no such Entry exists. */
         BSTNode get(K k) {
-            throw new UnsupportedOperationException();
+            if (k != null && k.equals(key)) {
+                return this;
+            }
+            else if (left != null && k.compareTo(key) < 0) {
+                return left.get(k);
+            }
+            else if (right != null && k.compareTo(key) > 0) {
+                return right.get(k);
+            }
+            return null;
         }
 
     }
 
     /** Returns the value corresponding to KEY or null if no such value exists. */
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        if (bstMap == null) {
+            return null;
+        }
+        BSTNode lookup = bstMap.get(key);
+        if(lookup == null) {
+            return null;
+        }
+        return lookup.val;
     }
 
     @Override
@@ -57,37 +73,70 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
     /** Removes all the mappings from this map. */
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        size = 0;
+        bstMap = null;
     }
 
     /** Inserts the key-value pair of KEY and VALUE into this dictionary,
      *  replacing the previous value associated to KEY, if any. */
     public void put(K key, V val) {
-        throw new UnsupportedOperationException();
+        if (bstMap != null) {
+            BSTNode lookup = bstMap.get(key);
+
+            //enter key/val into non-empty bstMap, where key not does not exist yet
+            if (lookup == null) {
+                put(key, val, bstMap);
+                size = size + 1;
+            }
+            else {
+                lookup.val = val;
+            }
+        }
+        //empty map
+        else {
+            bstMap = new BSTNode(key, val, null, null);
+            size = size + 1;
+        }
+    }
+
+    private BSTNode put(K key, V val, BSTNode bstNode) {
+        if (bstNode == null) {
+            return new BSTNode(key, val, null, null);
+        }
+        if (key.compareTo(bstNode.key) < 0) {
+            bstNode.left = put(key, val, bstNode.left);
+        }
+        else if (key.compareTo(bstNode.key) > 0) {
+            bstNode.right = put(key, val, bstNode.right);
+        }
+        return bstNode;
     }
 
     /** Returns true if and only if this dictionary contains KEY as the
      *  key of some key-value pair. */
     public boolean containsKey(K key) {
-        throw new UnsupportedOperationException();
+        if (bstMap.get(key) != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return new BSTMapIter();
+        return new BSTMapIterator();
     }
 
 
     /** An iterator that iterates over the keys of the dictionary. */
-    private class BSTMapIter implements Iterator<K> {
+    private class BSTMapIterator implements Iterator<K> {
 
         /** Stores the current key-value pair. */
         private BSTNode current;
 
         /** Create a new BSTMapIter by setting cur to the first node in the
          *  BST that stores the key-value pairs. */
-        public BSTMapIter() {
-            current = bstNode;
+        public BSTMapIterator() {
+            current = bstMap;
         }
 
         @Override
@@ -100,6 +149,17 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
             throw new UnsupportedOperationException();
         }
 
+    }
+
+    public void printInOrder() {
+        printInOrder(bstMap);
+    }
+
+    private void printInOrder(BSTNode bstNode) {
+        while (bstNode != null) {
+            printInOrder(bstNode.left);
+            printInOrder(bstNode.right);
+        }
     }
 
     @Override
