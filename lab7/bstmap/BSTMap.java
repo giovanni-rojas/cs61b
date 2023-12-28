@@ -9,7 +9,7 @@ import java.util.Set;
  *  associated to a key is the value in the last call to put with that key. */
 public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
 
-    int size = 0;
+    private int size = 0;
 
     /** Keys and values are stored in a BST of BSTNode objects.
      *  This variable stores the root node containing the first pair in BST. */
@@ -115,7 +115,7 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
     /** Returns true if and only if this dictionary contains KEY as the
      *  key of some key-value pair. */
     public boolean containsKey(K key) {
-        if (bstMap.get(key) != null) {
+        if (size() != 0 && bstMap.get(key) != null) {
             return true;
         }
         return false;
