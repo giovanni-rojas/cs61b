@@ -29,7 +29,7 @@ public class TestArrayDequeEC {
                     methodCalls += "addLast(" + i + ")" + '\n';
                     sad.addLast(i);
                     ad.addLast(i);
-                    assertEquals(methodCalls, (Integer) sad.get(sad.size() - 1), (Integer) ad.get(sad.size() - 1));
+                    assertEquals(methodCalls, (Integer) sad.get(sad.size() - 1), (Integer) ad.get(ad.size() - 1));
                     break;
                 case 2:
                     if (sad.isEmpty()) {
