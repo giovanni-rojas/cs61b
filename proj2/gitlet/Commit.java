@@ -21,6 +21,25 @@ public class Commit {
 
     /** The message of this Commit. */
     private String message;
+    private String timestamp;
+    private String parent;
+
+    private String sha1;
 
     /* TODO: fill in the rest of this class. */
+    public Commit(String message, String parent) {
+        this.message = message;
+        this.parent = parent;
+        this.timestamp = new Date(0);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+    public String getTimestamp() {
+        return this.timestamp;
+    }
+    public String getParent() {
+        return parent;
+    }
 }
