@@ -25,17 +25,17 @@ public class Commit implements Serializable {
     /** The message of this Commit. */
     private String message;
 
-    /** Commit timestamp */
-    private Date timestamp;
-
     /** SHA1 of parent Commit. */
     private String parentID;
 
-    /** SHA1 of parent Commit. */
-    private String id;
+    /** Commit timestamp */
+    private Date timestamp;
 
     /** Mapping of files Commit points to */
     private Map<String, String> fileMap;
+
+    /** Sha1 of commit */
+    private String ID;
 
 
     /* TODO: fill in the rest of this class. */
@@ -47,21 +47,22 @@ public class Commit implements Serializable {
 
     public Commit() {
         message = "initial commit";
+        parentID = null;
         timestamp = new Date(0);
         fileMap = new HashMap<>();
-        List<String> ls = new ArrayList<>(fileMap.values());
-        ls.add(message);
-        ls.add(String.valueOf(timestamp));
-        id = sha1(ls);
+        ID = Utils.sha1(Utils.serialize(this));
     }
 
     public String getMessage() {
         return message;
     }
     public Date getTimestamp() {
-        return this.timestamp;
+        return timestamp;
     }
     public String getParent() {
         return parentID;
+    }
+    public String getID() {
+        return ID;
     }
 }

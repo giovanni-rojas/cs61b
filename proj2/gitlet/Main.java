@@ -23,11 +23,11 @@ public class Main {
         switch (firstArg) {
             case "init":
                 repo.init();
-                // TODO: handle the `init` command
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
                 validateNumArgs("add", args, 2);
+                repo.add(args[1]);
                 break;
             case "commit":
                 // TODO: handle the `commit [message]` command
@@ -45,7 +45,7 @@ public class Main {
                 // TODO: handle the `find [commit message]` command
                 break;
             case "status":
-                // TODO: handle the `status` command
+                repo.status();
                 break;
             case "checkout":
                 // TODO: handle the `checkout -- [file name]`, 'checkout [commit id] -- [file name]', or 'checkout [branch name]' commands

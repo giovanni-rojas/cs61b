@@ -236,4 +236,12 @@ class Utils {
         System.out.printf(msg, args);
         System.out.println();
     }
+
+    /** My helpers */
+    static void checkGitlet() {
+        if (!Repository.GITLET_DIR.exists()) {
+            System.out.print("Not in an initialized Gitlet directory.");
+            System.exit(0);
+        }
+    }
 }

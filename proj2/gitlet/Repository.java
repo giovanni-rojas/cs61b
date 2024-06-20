@@ -65,6 +65,32 @@ public class Repository {
 
         /** Initial Commit */
         Commit initCommit = new Commit();
+        File commitFile = Utils.join(COMMITS, initCommit.getID());
+        Utils.writeObject(commitFile, initCommit);
     }
 
+    public static void add(String fileName) {
+
+        /** Check .gitlet exists */
+        Utils.checkGitlet();
+
+        File file = Utils.join(CWD, fileName);
+
+        /** Check if we're adding a nonexistant file */
+        if (!file.exists()) {
+            System.out.print("File does not exist.");
+            System.exit(0);
+        }
+
+        /** TODO */
+
+    }
+
+    public static void status() {
+        /** Check .gitlet exists */
+        Utils.checkGitlet();
+
+        /** TODO */
+
+    }
 }
