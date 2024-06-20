@@ -2,15 +2,18 @@ package gitlet;
 
 // TODO: any imports you need here
 
-import java.util.Date; // TODO: You'll likely use this in this class
+import java.io.Serializable;
+import java.util.*;
+
+import static gitlet.Utils.sha1;
 
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
  *  does at a high level.
  *
- *  @author TODO
+ *  @author Gio R
  */
-public class Commit {
+public class Commit implements Serializable {
     /**
      * TODO: add instance variables here.
      *
@@ -21,25 +24,44 @@ public class Commit {
 
     /** The message of this Commit. */
     private String message;
-    private String timestamp;
-    private String parent;
 
-    private String sha1;
+    /** Commit timestamp */
+    private Date timestamp;
+
+    /** SHA1 of parent Commit. */
+    private String parentID;
+
+    /** SHA1 of parent Commit. */
+    private String id;
+
+    /** Mapping of files Commit points to */
+    private Map<String, String> fileMap;
+
 
     /* TODO: fill in the rest of this class. */
-    public Commit(String message, String parent) {
+    public Commit(String message, String parentID) {
         this.message = message;
-        this.parent = parent;
-        this.timestamp = new Date(0);
+        this.parentID = parentID;
+        this.timestamp = new Date();
+    }
+
+    public Commit() {
+        message = "initial commit";
+        timestamp = new Date(0);
+        fileMap = new HashMap<>();
+        List<String> ls = new ArrayList<>(fileMap.values());
+        ls.add(message);
+        ls.add(String.valueOf(timestamp));
+        id = sha1(ls);
     }
 
     public String getMessage() {
         return message;
     }
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return this.timestamp;
     }
     public String getParent() {
-        return parent;
+        return parentID;
     }
 }

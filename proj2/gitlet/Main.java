@@ -3,7 +3,7 @@ package gitlet;
 import java.io.File;
 
 /** Driver class for Gitlet, a subset of the Git version-control system.
- *  @author TODO
+ *  @author Gio R
  */
 public class Main {
 
@@ -12,13 +12,22 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO: what if args is empty?
+        if (args.length == 0) {
+            System.out.print("Please enter a command.");
+            System.exit(0);
+        }
+
+        Repository repo = new Repository();
         String firstArg = args[0];
-        switch(firstArg) {
+
+        switch (firstArg) {
             case "init":
+                repo.init();
                 // TODO: handle the `init` command
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
+                validateNumArgs("add", args, 2);
                 break;
             case "commit":
                 // TODO: handle the `commit [message]` command
@@ -53,6 +62,16 @@ public class Main {
             case "merge":
                 // TODO: handle the `merge [branch name]` command
                 break;
+            default:
+                System.out.print("No command with that name exists.");
+                System.exit(0);
+        }
+    }
+
+    public static void validateNumArgs(String cmd, String[] args, int n) {
+        if (args.length != n) {
+            throw new RuntimeException(
+                    String.format("Invalid number of arguments for: %s.", cmd));
         }
     }
 }
