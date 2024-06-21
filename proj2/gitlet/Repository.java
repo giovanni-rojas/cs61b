@@ -33,8 +33,6 @@ public class Repository {
     public static final File STAGING_AREA = join(GITLET_DIR, "STAGING_AREA");
     public static final File HEAD = join(GITLET_DIR, "HEAD");
 
-
-
     /** Current Commit that Repository points to */
 
     /* TODO: fill in the rest of this class. */
@@ -52,9 +50,7 @@ public class Repository {
         BLOBS.mkdir();
         COMMITS.mkdir();
 
-        /** Creates Staging Area */
         StagingArea stagingArea = new StagingArea();
-        stagingArea.save();
 
         /** Create HEAD directory */
         try {
@@ -81,6 +77,11 @@ public class Repository {
             System.out.print("File does not exist.");
             System.exit(0);
         }
+
+        /** Get Staging Area */
+        StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
+        stagingArea.add(fileName);
+
 
         /** TODO */
 
