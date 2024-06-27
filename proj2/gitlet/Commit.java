@@ -43,6 +43,11 @@ public class Commit implements Serializable {
         this.message = message;
         this.parentID = parentID;
         this.timestamp = new Date();
+
+        /** Link to parent? */
+
+        /** Save commit to memory? */
+        
     }
 
     public Commit() {
@@ -51,6 +56,7 @@ public class Commit implements Serializable {
         timestamp = new Date(0);
         fileMap = new HashMap<>();
         ID = Utils.sha1(Utils.serialize(this));
+        /** set head pointer? */
     }
 
     public String getMessage() {

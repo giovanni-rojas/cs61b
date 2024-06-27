@@ -33,6 +33,8 @@ public class Repository {
     public static final File STAGING_AREA = join(GITLET_DIR, "STAGING_AREA");
     public static final File HEAD = join(GITLET_DIR, "HEAD");
 
+    private static String firstCommitID;
+
     /** Current Commit that Repository points to */
 
     /* TODO: fill in the rest of this class. */
@@ -63,6 +65,7 @@ public class Repository {
         Commit initCommit = new Commit();
         File commitFile = Utils.join(COMMITS, initCommit.getID());
         Utils.writeObject(commitFile, initCommit);
+        firstCommitID = initCommit.getID();
     }
 
     public static void add(String fileName) {
@@ -82,8 +85,7 @@ public class Repository {
         StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
         stagingArea.add(fileName);
 
-
-        /** TODO */
+        /** TODO might be done?*/
 
     }
 
@@ -93,5 +95,24 @@ public class Repository {
 
         /** TODO */
 
+    }
+
+    public static void commit(String message) {
+        /** Check .gitlet exists */
+        Utils.checkGitlet();
+
+        /** TODO */
+        /** Get current commits? From parent? */
+
+        /** For each file in staging area (make them blobs?), either add it to commit tree,
+         *  or update existing file in commit tree */
+
+        /** Move head pointer? */
+
+        /** Clear staging area? */
+    }
+
+    public static String getFirstCommitID() {
+        return firstCommitID;
     }
 }

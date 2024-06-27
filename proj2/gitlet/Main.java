@@ -31,6 +31,8 @@ public class Main {
                 break;
             case "commit":
                 // TODO: handle the `commit [message]` command
+                validateNumArgs("commit", args, 2);
+                repo.commit(args[1]);
                 break;
             case "rm":
                 // TODO: handle the `rm [filename]` command

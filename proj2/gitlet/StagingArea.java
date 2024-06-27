@@ -11,7 +11,7 @@ import static gitlet.Utils.*;
  *
  *  @author Gio R
  */
-public class StagingArea implements Serializable {
+public class StagingArea implements Serializable, Dumpable {
 
     /** In format of <fileName, blobID> */
     private Map<String, String> toAdd;
@@ -38,6 +38,16 @@ public class StagingArea implements Serializable {
         String blob_sha = Utils.sha1(Utils.serialize(contents));
         toAdd.put(fileName, blob_sha);
         writeObject(STAGING_AREA, this);
+
+    }
+    @Override
+     public void dump() {
+        System.out.printf("staging area: %s%n", toAdd);
+     }
+
+    public void clear() {
+
+        /** TODO */
 
     }
 
