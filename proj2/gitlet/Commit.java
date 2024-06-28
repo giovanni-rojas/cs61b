@@ -2,10 +2,13 @@ package gitlet;
 
 // TODO: any imports you need here
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
-import static gitlet.Utils.sha1;
+import static gitlet.Repository.*;
+import static gitlet.Utils.*;
 
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
@@ -26,37 +29,81 @@ public class Commit implements Serializable {
     private String message;
 
     /** SHA1 of parent Commit. */
-    private String parentID;
+    private Commit parentCommit;
 
     /** Commit timestamp */
     private Date timestamp;
 
-    /** Mapping of files Commit points to */
-    private Map<String, String> fileMap;
+    /** Mapping of files Commit points to: [FileName -> FileID] ----> [BlobID -> Blob] */
+    private Map<String, String> trackedFiles;
 
     /** Sha1 of commit */
     private String ID;
 
 
     /* TODO: fill in the rest of this class. */
-    public Commit(String message, String parentID) {
+    public Commit(String message, Commit parentCommit) {
         this.message = message;
-        this.parentID = parentID;
+        this.parentCommit = parentCommit;
         this.timestamp = new Date();
+        this.trackedFiles = parentCommit.getTrackedFiles();
 
-        /** Link to parent? */
+        /** Read staging area file names */
+        StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
+
+        List<String> fileNames = plainFilenamesIn(STAGED_FILES);
+        addStagedFiles(fileNames);
+
+        this.ID = Utils.sha1(Utils.serialize(this));
 
         /** Save commit to memory? */
-        
+        File newCommitFile = Utils.join(COMMITS, this.ID);
+        try {
+            newCommitFile.createNewFile();
+            writeObject(newCommitFile, Utils.serialize(this));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        /** Clear staging area */
+        stagingArea.clear();
+
     }
 
     public Commit() {
-        message = "initial commit";
-        parentID = null;
-        timestamp = new Date(0);
-        fileMap = new HashMap<>();
-        ID = Utils.sha1(Utils.serialize(this));
-        /** set head pointer? */
+        this.message = "initial commit";
+        this.parentCommit = null;
+        this.timestamp = new Date(0);
+        this.ID = Utils.sha1(Utils.serialize(this));
+        this.trackedFiles = new TreeMap<>();
+
+        File newCommitFile = Utils.join(COMMITS, this.ID);
+        try {
+            newCommitFile.createNewFile();
+            writeObject(newCommitFile, Utils.serialize(this));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addStagedFiles(List<String> fileNames) {
+
+        for (String fileName : fileNames) {
+            /** Read contents of file via fileName in STAGED_FILES */
+            File f = Utils.join(STAGED_FILES, fileName);
+            byte[] contents = Utils.readContents(f);
+            String blobID = Utils.sha1(Utils.serialize(contents));
+            trackedFiles.put(fileName, blobID);
+
+            /** Create Blob file in BLOBS */
+            File newBlobAdded = Utils.join(BLOBS, blobID);
+            try {
+                newBlobAdded.createNewFile();
+                writeObject(newBlobAdded, Utils.serialize(contents));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public String getMessage() {
@@ -65,8 +112,11 @@ public class Commit implements Serializable {
     public Date getTimestamp() {
         return timestamp;
     }
-    public String getParent() {
-        return parentID;
+    public Commit getParent() {
+        return parentCommit;
+    }
+    public Map<String, String> getTrackedFiles() {
+        return trackedFiles;
     }
     public String getID() {
         return ID;

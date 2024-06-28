@@ -32,6 +32,10 @@ public class Main {
             case "commit":
                 // TODO: handle the `commit [message]` command
                 validateNumArgs("commit", args, 2);
+                if (args[1] == "") {
+                    System.out.print("Please enter a commit message.");
+                    System.exit(0);
+                }
                 repo.commit(args[1]);
                 break;
             case "rm":

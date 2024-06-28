@@ -2,6 +2,7 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static gitlet.Utils.*;
 
@@ -31,6 +32,7 @@ public class Repository {
     public static final File BLOBS = join(GITLET_DIR, "BLOBS");
     public static final File COMMITS = join(GITLET_DIR, "COMMITS");
     public static final File STAGING_AREA = join(GITLET_DIR, "STAGING_AREA");
+    public static final File STAGED_FILES = join(GITLET_DIR, "STAGED_FILES");
     public static final File HEAD = join(GITLET_DIR, "HEAD");
 
     private static String firstCommitID;
@@ -51,21 +53,30 @@ public class Repository {
         GITLET_DIR.mkdir();
         BLOBS.mkdir();
         COMMITS.mkdir();
+        STAGED_FILES.mkdir();
 
         StagingArea stagingArea = new StagingArea();
 
-        /** Create HEAD directory */
+        /** Create HEAD File */
         try {
             HEAD.createNewFile();
+            Utils.writeObject(HEAD, null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         /** Initial Commit */
         Commit initCommit = new Commit();
-        File commitFile = Utils.join(COMMITS, initCommit.getID());
-        Utils.writeObject(commitFile, initCommit);
-        firstCommitID = initCommit.getID();
+        saveToFile(COMMITS, initCommit);
+
+        /** SOMETHING WRONG HERE */
+        saveToFile(HEAD, initCommit);
+    }
+
+    private static void saveToFile(File file, Commit commit) {
+        String commitID = commit.getID();
+        File commitFile = Utils.join(file, commitID);
+        Utils.writeObject(commitFile, commit);
     }
 
     public static void add(String fileName) {
@@ -101,15 +112,20 @@ public class Repository {
         /** Check .gitlet exists */
         Utils.checkGitlet();
 
-        /** TODO */
-        /** Get current commits? From parent? */
+        /** Read staging area */
+        StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
 
-        /** For each file in staging area (make them blobs?), either add it to commit tree,
-         *  or update existing file in commit tree */
+        /** Check for empty staging area */
+        if (stagingArea.getToAdd() == null && stagingArea.getToRemove() == null) {
+            System.out.print("No changes added to the commit.");
+            System.exit(0);
+        }
 
-        /** Move head pointer? */
+        Commit parentCommit = Utils.readObject(HEAD, Commit.class);
+        Commit commit = new Commit(message, parentCommit);
 
-        /** Clear staging area? */
+        saveToFile(HEAD, commit);
+        stagingArea.clear();
     }
 
     public static String getFirstCommitID() {

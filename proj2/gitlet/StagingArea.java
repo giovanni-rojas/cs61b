@@ -18,6 +18,7 @@ public class StagingArea implements Serializable, Dumpable {
     private Set<String> toRemove;
 
     private static final File STAGING_AREA = Repository.STAGING_AREA;
+    private static final File STAGED_FILES = Repository.STAGED_FILES;
 
     public StagingArea() {
         toAdd = new TreeMap<String, String>();
@@ -35,9 +36,19 @@ public class StagingArea implements Serializable, Dumpable {
 
         File fileToAdd = Utils.join(Repository.CWD, fileName);
         byte[] contents = Utils.readContents(fileToAdd);
-        String blob_sha = Utils.sha1(Utils.serialize(contents));
-        toAdd.put(fileName, blob_sha);
+        String blobID = Utils.sha1(Utils.serialize(contents));
+        toAdd.put(fileName, blobID);
         writeObject(STAGING_AREA, this);
+
+
+        /** Create Blob file in STAGED_FILES */
+        File newFileAdded = Utils.join(STAGED_FILES, blobID);
+        try {
+            newFileAdded.createNewFile();
+            writeObject(newFileAdded, Utils.serialize(contents));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     @Override
@@ -47,8 +58,26 @@ public class StagingArea implements Serializable, Dumpable {
 
     public void clear() {
 
-        /** TODO */
+        toAdd.clear();
+        toRemove.clear();
 
+        List<String> blobIDs = plainFilenamesIn(STAGED_FILES);
+
+        for (String blobID : blobIDs) {
+            File f = Utils.join(STAGED_FILES, blobID);
+            f.delete();
+        }
+
+        writeObject(STAGING_AREA, this);
+
+    }
+
+    public Map<String, String> getToAdd() {
+        return toAdd;
+    }
+
+    public Set<String> getToRemove() {
+        return toRemove;
     }
 
 }
