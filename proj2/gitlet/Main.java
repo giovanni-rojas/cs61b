@@ -1,6 +1,7 @@
 package gitlet;
 
 import java.io.File;
+import java.util.Objects;
 
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author Gio R
@@ -32,7 +33,7 @@ public class Main {
             case "commit":
                 // TODO: handle the `commit [message]` command
                 validateNumArgs("commit", args, 2);
-                if (args[1] == "") {
+                if (args[1].isEmpty()) {
                     System.out.print("Please enter a commit message.");
                     System.exit(0);
                 }

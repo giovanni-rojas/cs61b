@@ -35,6 +35,8 @@ public class Repository {
     public static final File STAGED_FILES = join(GITLET_DIR, "STAGED_FILES");
     public static final File HEAD = join(GITLET_DIR, "HEAD");
 
+    public static Commit headCommit;
+
     private static String firstCommitID;
 
     /** Current Commit that Repository points to */
@@ -57,20 +59,20 @@ public class Repository {
 
         StagingArea stagingArea = new StagingArea();
 
-        /** Create HEAD File */
-        try {
-            HEAD.createNewFile();
-            Utils.writeObject(HEAD, null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        /** Create HEAD File */
+//        try {
+//            HEAD.createNewFile();
+//            Utils.writeObject(HEAD, null);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         /** Initial Commit */
         Commit initCommit = new Commit();
         saveToFile(COMMITS, initCommit);
 
         /** SOMETHING WRONG HERE */
-        saveToFile(HEAD, initCommit);
+        headCommit = initCommit;
     }
 
     private static void saveToFile(File file, Commit commit) {
@@ -121,10 +123,13 @@ public class Repository {
             System.exit(0);
         }
 
-        Commit parentCommit = Utils.readObject(HEAD, Commit.class);
+        //Commit parentCommit = Utils.readObject(HEAD, Commit.class);
+        // headCommit not properly set in initial commit
+        Commit parentCommit = headCommit;
         Commit commit = new Commit(message, parentCommit);
 
-        saveToFile(HEAD, commit);
+        //saveToFile(HEAD, commit);
+        headCommit = commit;
         stagingArea.clear();
     }
 
