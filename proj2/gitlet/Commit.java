@@ -55,6 +55,7 @@ public class Commit implements Serializable {
 
         List<String> fileNames = plainFilenamesIn(STAGED_FILES);
         addStagedFiles(fileNames);
+        removeUnstagedFiles();
 
         this.ID = Utils.sha1(Utils.serialize(this));
 
@@ -105,6 +106,19 @@ public class Commit implements Serializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    private void removeUnstagedFiles() {
+
+        StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
+        Map<String, String> toRemove = stagingArea.getToRemove();
+
+        for (String fileName : toRemove.keySet()) {
+            if (trackedFiles.containsKey(fileName)) {
+                trackedFiles.remove(fileName);
+            }
+
         }
     }
 

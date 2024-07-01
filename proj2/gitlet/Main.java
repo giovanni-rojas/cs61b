@@ -23,15 +23,14 @@ public class Main {
 
         switch (firstArg) {
             case "init":
+                validateNumArgs("init", args, 1);
                 repo.init();
                 break;
             case "add":
-                // TODO: handle the `add [filename]` command
                 validateNumArgs("add", args, 2);
                 repo.add(args[1]);
                 break;
             case "commit":
-                // TODO: handle the `commit [message]` command
                 validateNumArgs("commit", args, 2);
                 if (args[1].isEmpty()) {
                     System.out.print("Please enter a commit message.");
@@ -40,7 +39,8 @@ public class Main {
                 repo.commit(args[1]);
                 break;
             case "rm":
-                // TODO: handle the `rm [filename]` command
+                validateNumArgs("rm", args, 2);
+                repo.rm(args[1]);
                 break;
             case "log":
                 // TODO: handle the `log` command
@@ -52,6 +52,7 @@ public class Main {
                 // TODO: handle the `find [commit message]` command
                 break;
             case "status":
+                validateNumArgs("status", args, 1);
                 repo.status();
                 break;
             case "checkout":

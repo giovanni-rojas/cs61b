@@ -100,6 +100,42 @@ public class Repository {
 
     }
 
+    public static void rm(String fileName) {
+
+        /** Check .gitlet exists */
+        Utils.checkGitlet();
+
+        File file = Utils.join(CWD, fileName);
+
+        /** Check if we're adding a nonexistant file */
+        if (!file.exists()) {
+            System.out.print("File does not exist.");
+            System.exit(0);
+        }
+
+        /** Get Staging Area */
+        StagingArea stagingArea = Utils.readObject(STAGING_AREA, StagingArea.class);
+        Commit parentCommit = Utils.readObject(HEAD, Commit.class);
+
+        /** TODO file not correctly found in StagingArea or parentCommit */
+
+        /** Exit if file has not been added to StagingArea */
+        if(stagingArea.getToAdd().containsKey(fileName)) {
+            stagingArea.rm(fileName);
+        }
+
+        else if (parentCommit.getTrackedFiles().containsKey(fileName)) {
+            stagingArea.rm(fileName);
+        }
+
+        /** Exit if file not being tracked by HEAD commit */
+        else {
+            System.out.print("No reason to remove the file.");
+            System.exit(0);
+        }
+
+    }
+
     public static void status() {
         /** Check .gitlet exists */
         Utils.checkGitlet();
@@ -121,13 +157,15 @@ public class Repository {
             System.exit(0);
         }
 
+        /** TODO: Deal with files that need to be removed from tracking (prob within Commit class) */
+
         Commit parentCommit = Utils.readObject(HEAD, Commit.class);
-        // headCommit not properly set in initial commit
         Commit commit = new Commit(message, parentCommit.getID());
 
         Utils.writeObject(HEAD, commit);
         stagingArea.clear();
     }
+
 
     public static String getFirstCommitID() {
         return firstCommitID;
