@@ -59,23 +59,21 @@ public class Repository {
 
         StagingArea stagingArea = new StagingArea();
 
-//        /** Create HEAD File */
-//        try {
-//            HEAD.createNewFile();
-//            Utils.writeObject(HEAD, null);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
         /** Initial Commit */
         Commit initCommit = new Commit();
-        saveToFile(COMMITS, initCommit);
+        saveToFolder(COMMITS, initCommit);
 
-        /** SOMETHING WRONG HERE */
-        headCommit = initCommit;
+        /** Create HEAD file, save initCommit there */
+        try {
+            HEAD.createNewFile();
+            Utils.writeObject(HEAD, initCommit);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    private static void saveToFile(File file, Commit commit) {
+    private static void saveToFolder(File file, Commit commit) {
         String commitID = commit.getID();
         File commitFile = Utils.join(file, commitID);
         Utils.writeObject(commitFile, commit);
@@ -123,13 +121,11 @@ public class Repository {
             System.exit(0);
         }
 
-        //Commit parentCommit = Utils.readObject(HEAD, Commit.class);
+        Commit parentCommit = Utils.readObject(HEAD, Commit.class);
         // headCommit not properly set in initial commit
-        Commit parentCommit = headCommit;
-        Commit commit = new Commit(message, parentCommit);
+        Commit commit = new Commit(message, parentCommit.getID());
 
-        //saveToFile(HEAD, commit);
-        headCommit = commit;
+        Utils.writeObject(HEAD, commit);
         stagingArea.clear();
     }
 

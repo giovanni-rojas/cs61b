@@ -29,7 +29,7 @@ public class Commit implements Serializable {
     private String message;
 
     /** SHA1 of parent Commit. */
-    private Commit parentCommit;
+    private String parentID;
 
     /** Commit timestamp */
     private Date timestamp;
@@ -42,10 +42,12 @@ public class Commit implements Serializable {
 
 
     /* TODO: fill in the rest of this class. */
-    public Commit(String message, Commit parentCommit) {
+    public Commit(String message, String parentID) {
         this.message = message;
-        this.parentCommit = parentCommit;
+        this.parentID = parentID;
         this.timestamp = new Date();
+
+        Commit parentCommit = Utils.readObject(HEAD, Commit.class);
         this.trackedFiles = parentCommit.getTrackedFiles();
 
         /** Read staging area file names */
@@ -72,7 +74,7 @@ public class Commit implements Serializable {
 
     public Commit() {
         this.message = "initial commit";
-        this.parentCommit = null;
+        this.parentID = "";
         this.timestamp = new Date(0);
         this.ID = Utils.sha1(Utils.serialize(this));
         this.trackedFiles = new TreeMap<>();
@@ -111,9 +113,6 @@ public class Commit implements Serializable {
     }
     public Date getTimestamp() {
         return timestamp;
-    }
-    public Commit getParent() {
-        return parentCommit;
     }
     public Map<String, String> getTrackedFiles() {
         return trackedFiles;
